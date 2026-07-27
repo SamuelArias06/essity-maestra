@@ -133,6 +133,7 @@ function entrar(v){
   document.getElementById('vnom').innerHTML=v+'<small>sede '+sede(v)+'</small>';
   tabs(freqs);
   if(!map){map=L.map('map',{zoomControl:true});L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; CARTO'}).addTo(map);capa=L.featureGroup().addTo(map);}
+  setTimeout(()=>map.invalidateSize(),120);
   render();
 }
 function sede(v){if(v.indexOf('Valle')>=0)return'Garagoa';if(v.indexOf('V1')===0||v.indexOf('Sogamoso')===0)return'Sogamoso';if(v.indexOf('Duitama')>=0||/V2|V3|Cercanos/.test(v))return'Duitama';return'Tunja';}
@@ -169,7 +170,7 @@ function render(){
     L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="leaf-num'+(hecho?' hecho':'')+'">'+c[iSEQ]+'</div>',iconSize:[22,22],iconAnchor:[11,11]})})
      .bindPopup('<b>'+c[iSEQ]+'. '+c[iN]+'</b>').addTo(capa);});
   if(pts.length){L.polyline(pts,{color:'#0E4DA4',weight:3,opacity:.55,dashArray:'5 5'}).addTo(capa);
-    setTimeout(()=>map.invalidateSize()||map.fitBounds(capa.getBounds().pad(0.12)),50);}
+    setTimeout(()=>{map.invalidateSize();map.fitBounds(capa.getBounds().pad(0.12));},80);}
 
   // lista
   const cont=document.getElementById('lista');
